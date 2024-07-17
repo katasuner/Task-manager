@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в систему</title>
+    <style>
+        html, body {
+            height: 100%; /* Полная высота страницы */
+            margin: 0; /* Убрать внешние отступы */
+            padding: 0; /* Убрать внутренние отступы */
+            display: flex; /* Использование Flexbox */
+            justify-content: center; /* Горизонтальное выравнивание */
+            align-items: center; /* Вертикальное выравнивание */
+            background: linear-gradient(to bottom, #FFE4B5, #FFFFFF); /* Градиент на весь фон */
+            color: #333; /* Цвет текста */
+            font-family: Arial, sans-serif; /* Шрифт для текста */
+        }
+        .form-container {
+            width: 300px; /* Ширина контейнера */
+            padding: 20px; /* Внутренний отступ */
+            background-color: white; /* Фон контейнера */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Тень контейнера */
+            border-radius: 8px; /* Скругление углов */
+        }
+        form {
+            display: flex; /* Использование Flexbox в форме */
+            flex-direction: column; /* Вертикальное направление элементов */
+        }
+        input, button {
+            margin-top: 10px; /* Отступ сверху для элементов формы */
+            padding: 10px; /* Паддинг для полей ввода и кнопок */
+            font-size: 16px; /* Размер шрифта */
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Вход в систему</h1>
+        <form action="/login/" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <input type="text" name="username" placeholder="Имя пользователя">
+            {{ form.username.errors }}
+            <input type="password" name="password" placeholder="Пароль">
+            {{ form.password.errors }}
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+</body>
+</html>

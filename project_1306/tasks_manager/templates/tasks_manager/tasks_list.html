@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список задач</title>
+    <style>
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #D2B48C;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .navbar h1 {
+            margin-right: auto;
+            font-size: 24px;
+        }
+        
+        .navbar form {
+            margin: 0 10px;
+        }
+        
+        .navbar button {
+            padding: 8px 16px;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .navbar button:hover {
+            background-color: #e7e7e7;
+        }
+        
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #F5DEB3, #FFFFFF);
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .task-card {
+            background: white;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        
+        .task-actions {
+            display: flex;  /* Выравнивает дочерние элементы в одну линию */ 
+            align-items: center; /* Выравнивает элементы по вертикали */
+        }
+        
+        .task-actions form {
+            margin: 0 5px; /* Добавляет небольшой отступ между формами */
+        }
+        
+        .task-actions button {
+            background-color: #f0f0f0; 
+            border: 1px solid #ccc; 
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+        
+        .task-actions button:hover {
+            background-color: #e0e0e0; /* Цвет фона при наведении */
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Task Management</h1>
+        <form action="{% url 'task_create' %}" method="get">
+            <button type="submit">Создать задачу</button>
+        </form>
+        <form action="{% url 'tasks_list' %}" method="get">
+            <button type="submit">Посмотреть список задач</button>
+        </form>
+        <form action="{% url 'logout' %}" method='post'>
+            {% csrf_token %}
+            <button type='submit'>Выйти из профиля</button>
+        </form>
+    </div>
+    
+    <ul>
+        {% if tasks %}
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>  Список задач на день</h2>
+            <div>
+                <button onclick="location.href='?sort=priority&order=asc'">Сортировать по приоритету ↑</button>
+                <button onclick="location.href='?sort=priority&order=desc'">Сортировать по приоритету ↓</button>
+                <button onclick="location.href='?sort=due_date&order=asc'">Сортировать по дате выполнения ↑</button>
+                <button onclick="location.href='?sort=due_date&order=desc'">Сортировать по дате выполнения ↓</button>
+                <button onclick="location.href='?sort=status&order=asc'">Сортировать по статусу ↑</button>
+                <button onclick="location.href='?sort=status&order=desc'">Сортировать по статусу ↓</button>
+            </div>
+            
+        </div>
+            <ul>
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <li class="task-card">
+                            <p><strong>{{ task.title }}</strong> | Приоритет - {{ task.get_priority_display }} | Статус задачи - {{ task.get_status_display }}</p>
+                            <p> Дата завершения задачи - {{ task.due_date }}</p>
+                            <div class="task-actions">
+                                <form action="{% url 'task_update' task.pk %}" method="get">
+                                    <button type="submit">✏️</button>
+                                </form>
+                                <form action="{% url 'task_delete' task.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить эту задачу?');">🗑️</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <h1>У вас пока нет задач. Создайте свою первую задачу!</h1>
+                    <form action="{% url 'task_create' %}" method="get">
+                        <button type="submit">Создать задачу</button>
+                    </form>
+                {% endif %}
+            </ul>
+        {% else %}
+            <h1 align="center">Список задач на день</h1>
+            <h2>У вас пока нет задач. Создайте свою первую задачу!</h2>
+            <form action="{% url 'task_create' %}" method="get">
+                <button type="submit">Создать задачу</button>
+            </form>
+        {% endif %}  
+    </ul>
+</body>
+</html>

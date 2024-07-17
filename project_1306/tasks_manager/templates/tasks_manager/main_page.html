@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <style>
+        html, body {
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            background-color: linear-gradient(to bottom, #FFE4B5, #FFFFFF); 
+            background-image: radial-gradient(circle, #FFF5EE 20%, transparent 20%), radial-gradient(circle, #FFE4E1, transparent 20%);
+            background-size: 100px 100px; 
+            background-position: 0 0, 50px 50px; 
+            background-repeat: repeat; 
+            color: #333; 
+            font-family: 'Arial', sans-serif; 
+        }
+        .container {
+            text-align: center; /* Центрирование текста в контейнере */
+            padding: 20px;
+            border-radius: 8px;
+            background: white; /* Белый фон для контейнера */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Тень для контейнера */
+            width: 500px; /* Ширина контейнера */
+        }
+        h1 {
+            margin-bottom: 20px; /* Отступ после заголовка */
+        }
+        button {
+            padding: 10px 20px; /* Отступы внутри кнопок */
+            margin: 5px; /* Отступы вокруг кнопок */
+            cursor: pointer; /* Курсор в виде указателя */
+            border: none; /* Убрать границу */
+            background-color: #4CAF50; /* Зеленый фон кнопки */
+            color: white; /* Белый текст */
+            font-size: 16px; /* Размер шрифта кнопки */
+            border-radius: 5px; /* Скругленные углы кнопок */
+            transition: background-color 0.3s; /* Плавное изменение фона при наведении */
+        }
+        button:hover {
+            background-color: #45a049; /* Темно-зеленый фон кнопки при наведении */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать в задачник!</h1>
+        <form action="{% url 'login' %}" method="get">
+            <button type="submit">Войти в систему</button>
+        </form>
+        <form action="{% url 'register' %}" method="get">
+            <button type="submit">Регистрация</button>
+        </form>
+    </div>
+</body>
+</html>
